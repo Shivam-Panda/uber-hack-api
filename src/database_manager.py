@@ -2,15 +2,22 @@ import sqlite3
 
 conn = sqlite3.connect("api\src\SUPPLIERS.db")
 c=conn.cursor()
+
 def get_suppliers(service,location):
+    conn = sqlite3.connect("api\src\SUPPLIERS.db")
+    c = conn.cursor()
     c.execute("SELECT Name FROM Suppliers WHERE ((Location = "+location+" )  AND (Services = "+service+"))" )
     return [i[0] for i in c.fetchall()]
 
 def get_services(supplier):
+    conn = sqlite3.connect("api\src\SUPPLIERS.db")
+    c = conn.cursor()
     c.execute("SELECT Services FROM Suppliers WHERE Name ="+supplier)
     return [i[0] for i in c.fetchall()]
 
 def get_costs(supplier):
+    conn = sqlite3.connect("api\src\SUPPLIERS.db")
+    c = conn.cursor()
     c.execute("SELECT Cost FROM Suppliers WHERE Name ="+supplier)
     strng = c.fetchall()[0][0]
     sstring = get_services(supplier)[0]
@@ -25,6 +32,8 @@ def get_costs(supplier):
         strng = strng[strng.find(",")+2:]
 
     return(dict(zip(services, costs)))
+
+
 state = "Michigan"
 
 conn.close()
